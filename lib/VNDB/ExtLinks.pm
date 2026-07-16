@@ -342,7 +342,7 @@ our %LINKS = (
         , label => 'JAST USA'
         , fmt   => sub($v,$d,$a) {
             $a &&= config->{jastusa_affiliate};
-            ('https://jastusa.com/games/%s/%s'.($a ? "?via=$a" : ''), $v, $d||'vndb')
+            ('https://jaststore.com/games/%s/%s'.($a ? "?via=$a" : ''), $v, $d||'vndb')
           }
         , parse => sub($u) { $u =~ qr{^(?:www\.)?jastusa\.com/games/([a-z0-9_-]+)/([^/]+)$} }
         , patt  => 'https://jastusa.com/games/<code>/<title>'
