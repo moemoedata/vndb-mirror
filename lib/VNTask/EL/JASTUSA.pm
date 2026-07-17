@@ -5,12 +5,12 @@ use VNTask::ExtLinks;
 
 sub fetch($task, $lnk) {
     # Requesting /games/$id without slug redirects to the page with the slug
-    my $res = http_get 'https://jastusa.com/games/'.$lnk->value, task => 'Affiliate Crawler';
+    my $res = http_get 'https://jaststore.com/games/'.$lnk->value, task => 'Affiliate Crawler';
     $res->dead('Not found') if $res->code eq 404;
 
     $res->expect(3);
     my $loc = $res->location;
-    $res->dead('Redirect to /') if $loc eq 'https://jastusa.com/';
+    $res->dead('Redirect to /') if $loc eq 'https://jaststore.com/';
     $res->err("Unexpected redirect to $loc") if $loc !~ m{/games/\Q$lnk->{value}\E/(.+)$};
     my $slug = $1;
 
