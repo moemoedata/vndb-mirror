@@ -344,8 +344,8 @@ our %LINKS = (
             $a &&= config->{jastusa_affiliate};
             ('https://jaststore.com/games/%s/%s'.($a ? "?via=$a" : ''), $v, $d||'vndb')
           }
-        , parse => sub($u) { $u =~ qr{^(?:www\.)?jastusa\.com/games/([a-z0-9_-]+)/([^/]+)$} }
-        , patt  => 'https://jastusa.com/games/<code>/<title>'
+        , parse => sub($u) { $u =~ qr{^(?:www\.)?(?:jastusa|jaststore)\.com/games/([a-z0-9_-]+)/([^/]+)$} }
+        , patt  => 'https://jaststore.com/games/<code>/<title>'
         , affil => !!config->{jastusa_affiliate}
         },
     jlist =>

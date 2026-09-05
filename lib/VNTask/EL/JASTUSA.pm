@@ -2,25 +2,39 @@ package VNTask::EL::JASTUSA;
 
 use v5.36;
 use VNTask::ExtLinks;
+use FU::Util 'json_parse';
 
 sub fetch($task, $lnk) {
-    # Requesting /games/$id without slug redirects to the page with the slug
-    my $res = http_get 'https://jaststore.com/games/'.$lnk->value, task => 'Affiliate Crawler';
+    my $res = http_get 'https://jaststore.com/games/'.$lnk->value,
+        task   => 'Affiliate Crawler',
+        cookie => 'currency=USD';
     $res->dead('Not found') if $res->code eq 404;
-
-    $res->expect(3);
-    my $loc = $res->location;
-    $res->dead('Redirect to /') if $loc eq 'https://jaststore.com/';
-    $res->err("Unexpected redirect to $loc") if $loc !~ m{/games/\Q$lnk->{value}\E/(.+)$};
-    my $slug = $1;
-
-    $res = http_get $loc, task => 'Affiliate Crawler';
     $res->expect(200);
 
+    my $ldjson = $res->body =~ m{<script type="application/ld\+json">(.*?)</script>}s
+        ? $1
+        : $res->err('No embedded json metadata found');
+    my $json = json_parse $ldjson, utf8 => 1;
+
+    my $url = ref $json eq 'HASH' && $json->{url}
+        ? $json->{url}
+        : $res->err('No product URL found');
+
+    $url =~ m{/games/\Q$lnk->{value}\E/(.+)$}
+        or $res->err('Unexpected product URL');
+    my $slug = $1;
+
+    my $offer = ref $json->{offers} eq 'HASH'
+        ? $json->{offers}
+        : $res->err('No offer information found');
+
+    $res->err('Unexpected currency')
+        if $offer->{priceCurrency} ne 'USD';
+
     my $price =
-        $res->{Body} =~ m{<div class="price-box__hld">.*<span class="price-box__value">\s*([0-9.]+)\s*</span>}s ? "US\$ $1" :
-        $res->{Body} =~ m{<span class="sidebar-main__info">\s*Free item} ? 'free' :
-        $res->err('No price information found');
+        $offer->{price} && $offer->{price} ne '0.00'
+        ? sprintf 'US$ %.02f', $offer->{price}
+        : 'free';
 
     $lnk->save(price => $price, data => $slug);
     $task->done('Available at /%s for %s', $slug, $price);
