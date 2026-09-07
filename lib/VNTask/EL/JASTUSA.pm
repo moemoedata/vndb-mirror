@@ -7,7 +7,7 @@ use FU::Util 'json_parse';
 sub fetch($task, $lnk) {
     my $res = http_get 'https://jaststore.com/games/'.$lnk->value,
         task   => 'Affiliate Crawler',
-        cookie => 'currency=USD';
+        cookie => 'regional-zone=USA; currency=USD';
     $res->dead('Not found') if $res->code eq 404;
     $res->expect(200);
 
