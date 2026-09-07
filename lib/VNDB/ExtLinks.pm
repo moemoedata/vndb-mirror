@@ -339,7 +339,7 @@ our %LINKS = (
         },
     jastusa =>
         { ent   => 'r'
-        , label => 'JAST USA'
+        , label => 'JAST Store'
         , fmt   => sub($v,$d,$a) {
             $a &&= config->{jastusa_affiliate};
             ('https://jaststore.com/games/%s/%s'.($a ? "?via=$a" : ''), $v, $d||'vndb')
