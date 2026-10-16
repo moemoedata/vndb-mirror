@@ -113,7 +113,7 @@ ${JPEGLI_DIR}:
 
 ${GEN}/lib/libjpeg.so: ${JPEGLI_DIR}
 	cd ${JPEGLI_DIR} && \
-		([ -d .git ] && echo "jpegli-repository is already cloned" || git clone https://github.com/google/jpegli .) \
+		([ -d .git ] && echo "jpegli-repository is already cloned" || git clone https://github.com/google/jpegli .)  && \
 		git reset --hard ${JPEGLI_VER} && \
 		git submodule update --init --recursive --depth 1 --recommend-shallow
 	echo 'extern "C" { extern void vndb_jpeg_is_jpegli(void) {} }' >>${JPEGLI_DIR}/lib/jpegli/libjpeg_wrapper.cc
