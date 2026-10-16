@@ -108,11 +108,10 @@ JPEGLI_DIR := ${GEN}/build/jpegli-${JPEGLI_VER}
 ${GEN}/imgproc-custom: util/imgproc.c ${GEN}/lib/libjpeg.so Makefile
 	${CC} ${CFLAGS} $< `pkg-config --cflags --libs libseccomp vips` -DCUSTOM_JPEGLI -L${GEN}/lib '-Wl,-rpath,$$ORIGIN/lib' -ljpeg -o $@
 
-${JPEGLI_DIR}/.dir:
+${JPEGLI_DIR}:
 	mkdir -p ${JPEGLI_DIR}
-	@touch $@
 
-${GEN}/lib/libjpeg.so: ${JPEGLI_DIR}/.dir
+${GEN}/lib/libjpeg.so: ${JPEGLI_DIR}
 	cd ${JPEGLI_DIR} && \
 		git clone https://github.com/google/jpegli .  && \
 		git reset --hard ${JPEGLI_VER} && \
