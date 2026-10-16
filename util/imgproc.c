@@ -20,6 +20,13 @@
 #include <fcntl.h>
 #include <locale.h>
 #include <sys/mman.h>
+/*  MADV_GUARD_INSTALL was added in Linux 6.13. Alpine 3.21 ships Linux 6.6 headers, so <sys/mman.h> does not define it. 
+ *  The rule was added for glibc 2.42’s newer thread-stack guard-page
+ *  implementation; standard Alpine uses musl and does not need it. 
+ */
+#ifndef MADV_GUARD_INSTALL
+#define MADV_GUARD_INSTALL 102 /* Linux 6.13 */
+#endif
 #include <sys/prctl.h>
 #include <sys/ioctl.h>
 #include <malloc.h>
