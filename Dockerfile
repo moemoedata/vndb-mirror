@@ -26,6 +26,10 @@ RUN apk add --no-cache \
         sassc \
         wget \
         zlib-dev \
+        pandoc-cli \
+        uglify-js \
+        cmake \
+        libseccomp-dev \
     && cpanm -nq \
         AnyEvent::IRC \
         AnyEvent::Pg \
