@@ -122,6 +122,9 @@ environment variables inside the container point into this directory and the
 PostgreSQL data files are also in there.  If you want to restart with a clean
 slate, you can stop the container and delete or rename that directory.
 
+To configure your developer shell, you can create your own `*docker/var/.profile` 
+script, which is sourced when a new shell is started.
+
 
 ## Requirements (when not using Docker)
 

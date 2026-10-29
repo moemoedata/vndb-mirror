@@ -29,10 +29,10 @@ mkdevuser() {
     USER_GID=`stat -c '%g' /vndb`
     if test $USER_UID -eq 0; then
         addgroup devgroup
-        adduser -s /bin/sh devuser
+        adduser -s /bin/sh -k /vndb/util/home/devuser devuser
     else
         addgroup -g $USER_GID devgroup
-        adduser -s /bin/sh -u $USER_UID -G devgroup -D devuser
+        adduser -s /bin/sh -k /vndb/util/home/devuser -u $USER_UID -G devgroup -D devuser
     fi
     install -d -o devuser -g devgroup /run/postgresql
 }
