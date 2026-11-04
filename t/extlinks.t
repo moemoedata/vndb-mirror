@@ -49,6 +49,7 @@ my @tests = qw{
     playasia 2623 - https://www.play-asia.com/13/702623
 
     jastusa srvn068 meteor-world-actor https://jastusa.com/games/srvn068/meteor-world-actor
+    jastusa srvn068 meteor-world-actor https://jaststore.com/games/srvn068/meteor-world-actor
 
     dlsite VJ010808 pro    https://www.dlsite.com/pro/work/=/product_id/VJ010808.html
     dlsite RJ151743 maniax https://www.dlsite.com/maniax/dlaf/=/link/work/aid/vndb/id/RJ151743.html

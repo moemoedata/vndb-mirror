@@ -238,6 +238,7 @@ sub http_get($uri, %opt) {
        qw/--silent --fail-early --globoff --include --compressed --proto =http,https --max-time 60 --max-filesize 10M/,
        '-w', '%output{>>'.$path.'/'.$fn.'}%{exitcode} %{response_code} %{errormsg}%{redirect_url}\n',
        '--user-agent', sprintf('VNDB.org %s (%s)', delete($opt{task})||'link checker', config->{admin_email}),
+       $opt{cookie} ? ('--cookie', delete($opt{cookie})) : (),
        map +($_->{Uri}, '-o', "$_->{Path}-$_->{Index}"), @resp
     ) if !-f "$path/$fn";
 
